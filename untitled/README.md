@@ -1,16 +1,106 @@
-# untitled
+# 俄罗斯方块游戏
 
-A new Flutter project.
+一个跨平台的俄罗斯方块游戏，支持Android和Linux平台。
 
-## Getting Started
+## 功能特性
 
-This project is a starting point for a Flutter application.
+- 🎮 经典的俄罗斯方块游戏玩法
+- 📱 支持Android和Linux平台
+- 🎯 两个关卡：第一关需要100分，第二关需要120分
+- 🏆 消除一行得10分
+- 🎨 7种不同形状和颜色的方块
+- ⌨️ 支持键盘和触摸控制
+- 🎵 游戏状态提示（过关、游戏结束等）
 
-A few resources to get you started if this is your first Flutter project:
+## 游戏控制
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 触摸控制
+- **上按钮（橙色）**：顺时针旋转方块
+- **下按钮（绿色）**：加速下落
+- **左按钮（蓝色）**：向左移动
+- **右按钮（蓝色）**：向右移动
+- **重置按钮**：重新开始游戏
+- **退出按钮**：退出游戏
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 键盘控制
+- **方向键上**：旋转方块
+- **方向键下**：加速下落
+- **方向键左**：向左移动
+- **方向键右**：向右移动
+- **空格键**：暂停/继续游戏
+
+## 游戏规则
+
+1. 方块从顶部开始下落
+2. 使用控制按钮移动和旋转方块
+3. 当一行被完全填满时，该行会被消除，获得10分
+4. 第一关需要100分过关，第二关需要120分过关
+5. 当方块到达顶部无法放置新方块时，游戏结束
+
+## 运行方法
+
+### 前提条件
+- 安装Flutter SDK
+- 配置好Android开发环境（如果要运行Android版本）
+- 配置好Linux开发环境（如果要运行Linux版本）
+
+### 安装依赖
+```bash
+flutter pub get
+```
+
+### 运行游戏
+
+#### Android平台
+```bash
+flutter run -d android
+```
+
+#### Linux平台
+```bash
+flutter run -d linux
+```
+
+#### Web平台（可选）
+```bash
+flutter run -d chrome
+```
+
+## 项目结构
+
+```
+lib/
+├── main.dart                 # 应用入口
+├── models/                   # 游戏模型
+│   ├── tetris_piece.dart    # 方块模型
+│   └── tetris_game.dart     # 游戏逻辑
+├── pages/                    # 页面
+│   └── tetris_game_page.dart # 主游戏页面
+└── widgets/                  # 组件
+    ├── tetris_board.dart     # 游戏板
+    ├── next_piece_preview.dart # 下一个方块预览
+    ├── game_info.dart        # 游戏信息显示
+    └── game_controls.dart    # 游戏控制按钮
+```
+
+## 技术特点
+
+- 使用Flutter框架开发，确保跨平台兼容性
+- 响应式设计，适配不同屏幕尺寸
+- 模块化代码结构，易于维护和扩展
+- 使用Material Design 3设计语言
+- 支持触摸和键盘输入
+
+## 开发说明
+
+游戏使用状态管理来跟踪游戏状态，包括：
+- 当前方块位置和旋转状态
+- 游戏板状态
+- 分数和关卡信息
+- 游戏状态（进行中、暂停、结束等）
+
+所有游戏逻辑都在`TetrisGame`类中实现，UI组件通过回调函数与游戏逻辑交互。
+
+## 许可证
+
+本项目仅供学习和演示使用。
