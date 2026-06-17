@@ -8,6 +8,7 @@ class GameControls extends StatelessWidget {
   final VoidCallback onReset;
   final VoidCallback onExit;
   final bool isGameOver;
+  final bool isSmallScreen;
 
   const GameControls({
     super.key,
@@ -18,12 +19,16 @@ class GameControls extends StatelessWidget {
     required this.onReset,
     required this.onExit,
     this.isGameOver = false,
+    this.isSmallScreen = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    final btnSize = isSmallScreen ? 44.0 : 50.0;
+    final fontSize = isSmallScreen ? 13.0 : 14.0;
+
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -37,66 +42,85 @@ class GameControls extends StatelessWidget {
         ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Direction controls (left side)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          // Direction pad (D-pad style)
+          //        [↑]
+          //  [←]  [Rotate]  [→]
+          //        [↓]
+          Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Left side controls
-              Column(
+              // Up button row
+              _buildControlButton(
+                icon: Icons.arrow_upward,
+                onPressed: isGameOver ? null : onUp,
+                color: Colors.orange,
+                size: btnSize,
+              ),
+              const SizedBox(height: 4),
+              // Middle row: Left, Rotate icon, Right
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const SizedBox(height: 40), // Space for up button
-                  Row(
-                    children: [
-                      _buildControlButton(
-                        icon: Icons.arrow_back,
-                        onPressed: isGameOver ? null : onLeft,
-                        color: Colors.blue,
-                      ),
-                      const SizedBox(width: 20),
-                      _buildControlButton(
-                        icon: Icons.arrow_forward,
-                        onPressed: isGameOver ? null : onRight,
-                        color: Colors.blue,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
                   _buildControlButton(
-                    icon: Icons.arrow_downward,
-                    onPressed: isGameOver ? null : onDown,
-                    color: Colors.green,
+                    icon: Icons.arrow_back,
+                    onPressed: isGameOver ? null : onLeft,
+                    color: Colors.blue,
+                    size: btnSize,
+                  ),
+                  const SizedBox(width: 16),
+                  // Rotation indicator in center
+                  Container(
+                    width: btnSize,
+                    height: btnSize,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(btnSize / 2),
+                    ),
+                    child: const Icon(
+                      Icons.rotate_right,
+                      color: Colors.grey,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  _buildControlButton(
+                    icon: Icons.arrow_forward,
+                    onPressed: isGameOver ? null : onRight,
+                    color: Colors.blue,
+                    size: btnSize,
                   ),
                 ],
               ),
-              
-              const SizedBox(width: 40),
-              
-              // Up button (rotate)
+              const SizedBox(height: 4),
+              // Down button row
               _buildControlButton(
-                icon: Icons.rotate_right,
-                onPressed: isGameOver ? null : onUp,
-                color: Colors.orange,
-                size: 60,
+                icon: Icons.arrow_downward,
+                onPressed: isGameOver ? null : onDown,
+                color: Colors.green,
+                size: btnSize,
               ),
             ],
           ),
-          
-          const SizedBox(height: 30),
-          
-          // Action buttons (right side)
+
+          const SizedBox(height: 20),
+
+          // Action buttons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               _buildActionButton(
-                text: 'Reset',
+                text: '重新开始',
                 onPressed: onReset,
                 color: Colors.orange,
+                fontSize: fontSize,
               ),
               _buildActionButton(
-                text: 'Exit',
+                text: '退出',
                 onPressed: onExit,
                 color: Colors.red,
+                fontSize: fontSize,
               ),
             ],
           ),
@@ -144,9 +168,10 @@ class GameControls extends StatelessWidget {
     required String text,
     required VoidCallback onPressed,
     required Color color,
+    double fontSize = 14,
   }) {
     return Container(
-      width: 80,
+      width: 90,
       height: 40,
       decoration: BoxDecoration(
         color: color,
@@ -167,10 +192,10 @@ class GameControls extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: fontSize,
               ),
             ),
           ),

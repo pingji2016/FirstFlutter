@@ -34,9 +34,16 @@ class NextPiecePreview extends StatelessWidget {
       );
     }
 
+    // Calculate preview size based on shape dimensions
+    final previewCellSize = 16.0;
+    final shapeRows = nextPiece!.shape.length;
+    final shapeCols = nextPiece!.shape[0].length;
+    final previewWidth = shapeCols * previewCellSize + 32; // extra padding
+    final previewHeight = shapeRows * previewCellSize + 50; // space for label
+
     return Container(
-      width: 80,
-      height: 80,
+      width: previewWidth,
+      height: previewHeight,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey.shade400, width: 2),
         borderRadius: BorderRadius.circular(8),
@@ -45,6 +52,7 @@ class NextPiecePreview extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
               'Next',
@@ -59,19 +67,19 @@ class NextPiecePreview extends StatelessWidget {
               child: Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(nextPiece!.shape.length, (y) {
+                  children: List.generate(shapeRows, (y) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(nextPiece!.shape[y].length, (x) {
+                      children: List.generate(shapeCols, (x) {
                         final cellValue = nextPiece!.shape[y][x];
                         return Container(
-                          width: cellSize * 0.8,
-                          height: cellSize * 0.8,
+                          width: previewCellSize,
+                          height: previewCellSize,
                           decoration: BoxDecoration(
-                            color: cellValue == 1 
+                            color: cellValue == 1
                                 ? Color(nextPiece!.color)
                                 : Colors.transparent,
-                            border: cellValue == 1 
+                            border: cellValue == 1
                                 ? Border.all(
                                     color: Colors.grey.shade300,
                                     width: 0.5,
